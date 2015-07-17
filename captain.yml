@@ -1,3 +1,3 @@
-glassfish-flyway:
+tomee-flyway:
   build: Dockerfile
-  image: harbur/glassfish-flyway
+  image: harbur/tomee-flyway

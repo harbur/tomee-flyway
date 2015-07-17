@@ -17,4 +17,4 @@ if [ -n "${UPDATE_DB}" ]; then
   flyway migrate -url="jdbc:${DB_JDBC}://${DB_HOST}" -schemas=${DB_SCHEMAS} -user=${DB_USER} -password=${DB_PASSWORD} -locations=filesystem:${DB_SQLDIR} ${FLYWAY_EXTRA}
 fi
 
-asadmin start-domain --verbose
+catalina.sh run
