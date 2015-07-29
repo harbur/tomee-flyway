@@ -11,6 +11,7 @@ export DB_PASSWORD=${DB_PASSWORD:-mysql}
 export DB_SQLDIR=${DB_SQLDIR:-/db/}
 export FLYWAY_EXTRA=${FLYWAY_EXTRA:-}
 export DB_JDBC_URL=${DB_JDBC_URL:-}
+export FLYWAY_TABLE=${FLYWAY_TABLE}
 
 export DB_JDBC_URL_TEMPLATE=jdbc:${DB_JDBC}://${DB_HOST}
 if [ $DB_JDBC == "oracle" ]; then
@@ -18,9 +19,10 @@ if [ $DB_JDBC == "oracle" ]; then
 	export DB_JDBC_URL_TEMPLATE=jdbc:${DB_JDBC}:${DB_JDBC_TYPE}:@${DB_HOST}
 fi
 
-if [ -n "${DB_SCHEMAS}"  ]; then export FLYWAY_EXTRA="-schemas=${DB_SCHEMAS} $FLYWAY_EXTRA";   fi
-if [ -n "${DB_USER}"     ]; then export FLYWAY_EXTRA="-user=${DB_USER} $FLYWAY_EXTRA";         fi
-if [ -n "${DB_PASSWORD}" ]; then export FLYWAY_EXTRA="-password=${DB_PASSWORD} $FLYWAY_EXTRA"; fi
+if [ -n "${DB_SCHEMAS}"   ]; then export FLYWAY_EXTRA="-schemas=${DB_SCHEMAS} $FLYWAY_EXTRA";   fi
+if [ -n "${DB_USER}"      ]; then export FLYWAY_EXTRA="-user=${DB_USER} $FLYWAY_EXTRA";         fi
+if [ -n "${DB_PASSWORD}"  ]; then export FLYWAY_EXTRA="-password=${DB_PASSWORD} $FLYWAY_EXTRA"; fi
+if [ -n "${FLYWAY_TABLE}" ]; then export FLYWAY_EXTRA="-table=${FLYWAY_TABLE} $FLYWAY_EXTRA";   fi
 
 echo $DB_JDBC_URL_TEMPLATE;
 export DB_JDBC_URL=${DB_JDBC_URL:-${DB_JDBC_URL_TEMPLATE}}
