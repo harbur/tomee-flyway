@@ -29,7 +29,6 @@ if [ -n "${FLYWAY_BASELINE}" ]; then export FLYWAY_EXTRA="-baselineOnMigrate=tru
 echo $DB_JDBC_URL_TEMPLATE;
 export DB_JDBC_URL=${DB_JDBC_URL:-${DB_JDBC_URL_TEMPLATE}}
 
-echo $FLYWAY_EXTRA
 # Should we update the database?
 if [ -n "${UPDATE_DB}" ]; then
 	echo "Waiting for database to initialize..."
