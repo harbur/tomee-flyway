@@ -1,3 +1,8 @@
 tomee-flyway:
   build: Dockerfile
   image: harbur/tomee-flyway
+  test:
+    # - docker run -d --name=database docker-registry.scytl.net/pkoornneef/oracle
+    - docker run -e UPDATE_DB=true -e DB_JDBC=oracle harbur/tomee-flyway:latest
+    # - docker kill database
+    # - docker rm database

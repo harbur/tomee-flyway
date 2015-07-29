@@ -10,11 +10,24 @@ export DB_USER=${DB_USER:-root}
 export DB_PASSWORD=${DB_PASSWORD:-mysql}
 export DB_SQLDIR=${DB_SQLDIR:-/db/}
 export FLYWAY_EXTRA=${FLYWAY_EXTRA:-}
+export DB_JDBC_URL=${DB_JDBC_URL:-}
+
+export DB_JDBC_URL_TEMPLATE=jdbc:${DB_JDBC}://${DB_HOST}
+if [ $DB_JDBC == "oracle" ]; then
+	export DB_JDBC_TYPE=${DB_JDBC_TYPE:-thin}
+	export DB_JDBC_URL_TEMPLATE=jdbc:${DB_JDBC}:${DB_JDBC_TYPE}:@${DB_HOST}
+fi
+
+echo $DB_JDBC_URL_TEMPLATE;
+export DB_JDBC_URL=${DB_JDBC_URL:-${DB_JDBC_URL_TEMPLATE}}
 
 # Should we update the database?
 if [ -n "${UPDATE_DB}" ]; then
-  sleep 30
-  flyway migrate -url="jdbc:${DB_JDBC}://${DB_HOST}" -schemas=${DB_SCHEMAS} -user=${DB_USER} -password=${DB_PASSWORD} -locations=filesystem:${DB_SQLDIR} ${FLYWAY_EXTRA}
+	echo "Waiting for database to initialize..."
+	sleep 60
+	echo "Migrating database with flyway..."
+	flyway migrate -url="${DB_JDBC_URL}" -schemas=${DB_SCHEMAS} -user=${DB_USER} -password=${DB_PASSWORD} -locations=filesystem:${DB_SQLDIR} ${FLYWAY_EXTRA}
 fi
 
+# exit 0
 catalina.sh run
