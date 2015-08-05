@@ -37,4 +37,4 @@ if [ -n "${UPDATE_DB}" ]; then
 	flyway migrate -url="${DB_JDBC_URL}" -locations=filesystem:${DB_SQLDIR} ${FLYWAY_EXTRA}
 fi
 
-catalina.sh run
+exec catalina.sh run

@@ -7,5 +7,4 @@ RUN ln -s /usr/local/tomee/lib/mysql-connector-java-5.1.34.jar /opt/flyway-3.2.1
 
 COPY assets/entrypoint /.entrypoint
 
-
-CMD /.entrypoint
+CMD ["/.entrypoint"]
