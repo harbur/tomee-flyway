@@ -31,10 +31,11 @@ export DB_JDBC_URL=${DB_JDBC_URL:-${DB_JDBC_URL_TEMPLATE}}
 
 # Should we update the database?
 if [ -n "${UPDATE_DB}" ]; then
-	echo "Waiting for database to initialize..."
-	sleep 120
-	echo "Migrating database with flyway..."
-	flyway migrate -url="${DB_JDBC_URL}" -locations=filesystem:${DB_SQLDIR} ${FLYWAY_EXTRA}
+	echo "Updating Database schema"
+	until flyway info -url="${DB_JDBC_URL}" -locations=filesystem:${DB_SQLDIR} ${FLYWAY_EXTRA} &> /dev/null; do \
+		sleep 10 && echo -n .;
+	done;
+	flyway migrate -url="${DB_JDBC_URL}" -locations=filesystem:${DB_SQLDIR} ${FLYWAY_EXTRA};
 fi
 
 exec catalina.sh run
